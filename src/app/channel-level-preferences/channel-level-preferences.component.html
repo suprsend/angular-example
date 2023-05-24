@@ -1,0 +1,71 @@
+<div>
+  <div class="channel-header-div">
+    <p class="channel-header-p">What notifications to allow for channel?</p>
+  </div>
+  <div>
+    <div *ngFor="let channel of this.preferencesData.channel_preferences">
+      <div class="channel-container">
+        <p class="channel-channel-text">{{ channel.channel }}</p>
+        <p
+          class="channel-help-text"
+          *ngIf="channel.is_restricted; else allText"
+        >
+          Allow required notifications only
+        </p>
+        <ng-template #allText
+          ><p class="channel-help-text">Allow all notifications</p>
+        </ng-template>
+
+        <div class="channel-radio-container">
+          <p class="channel-radio-pref-text">
+            {{ channel.channel }} Preferences
+          </p>
+          <div class="radio-grp">
+            <div class="radio-grp-2">
+              <div class="radio-grp-container">
+                <div>
+                  <input
+                    type="radio"
+                    [checked]="!channel.is_restricted"
+                    name="all-{{ channel.channel }}"
+                    id="all-{{ channel.channel }}"
+                    (change)="handleChange(channel.channel, 'ALL')"
+                  />
+                </div>
+                <label class="all-label" for="all-{{ channel.channel }}">
+                  All
+                </label>
+              </div>
+              <p class="channel-radiohelp-text">
+                Allow All Notifications, except the ones that I have turned off
+              </p>
+            </div>
+            <div>
+              <div class="radio-grp-container">
+                <div>
+                  <input
+                    type="radio"
+                    name="required-{{ channel.channel }}"
+                    id="required-{{ channel.channel }}"
+                    [checked]="channel.is_restricted"
+                    (change)="handleChange(channel.channel, 'REQUIRED')"
+                  />
+                </div>
+                <label
+                  class="required-label"
+                  for="required-{{ channel.channel }}"
+                >
+                  Required
+                </label>
+              </div>
+              <p class="channel-radiohelp-text">
+                Allow only important notifications related to account and
+                security settings
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,84 @@
+.channel-header-div {
+  background-color: #fafbfb;
+  padding-top: 12px;
+  padding-bottom: 12px;
+  margin-bottom: 18px;
+}
+
+.channel-header-p {
+  font-size: 18px;
+  font-weight: 500;
+  color: #3d3d3d;
+}
+
+p,
+label {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.channel-container {
+  border: 1px solid #d9d9d9;
+  border-radius: 5px;
+  padding: 12px 24px;
+  margin-bottom: 24px;
+}
+
+.channel-channel-text {
+  font-size: 18px;
+  font-weight: 500;
+  color: #3d3d3d;
+}
+
+.channel-help-text {
+  color: #6c727f;
+  font-size: 14px;
+  margin-top: 6px;
+}
+
+.channel-radio-container {
+  margin-top: 12px;
+  margin-left: 24px;
+}
+
+.channel-radio-pref-text {
+  color: #3d3d3d;
+  font-size: 16px;
+  font-weight: 500;
+  margin-top: 18px;
+  border-bottom: 1px solid #e8e8e8;
+}
+
+.channel-radiohelp-text {
+  color: #6c727f;
+  font-size: 14px;
+  margin-left: 32px;
+  margin-top: 4px;
+}
+
+.label-required {
+  margin-left: 12px;
+}
+
+.radio-grp {
+  margin-top: 12px;
+}
+
+.radio-grp-2 {
+  margin-bottom: 8px;
+}
+
+.radio-grp-container {
+  display: flex;
+  align-items: center;
+}
+.all-label {
+  margin-left: 12px;
+  cursor: pointer;
+}
+
+.required-label {
+  margin-left: 12px;
+  cursor: pointer;
+}
