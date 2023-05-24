@@ -1,0 +1,14 @@
+<p *ngIf="!this.preferencesData">Loading...</p>
+<div *ngIf="this.preferencesData" class="main-div">
+  <h3 class="main-header">Notification Preferences</h3>
+
+  <!-- notification category level preferences -->
+  <app-category-level-preferences
+    [preferencesData]="this.preferencesData"
+  ></app-category-level-preferences>
+
+  <!-- channel level preferences -->
+  <app-channel-level-preferences
+    [preferencesData]="this.preferencesData"
+  ></app-channel-level-preferences>
+</div>

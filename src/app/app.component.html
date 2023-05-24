@@ -1,1 +1,19 @@
-<suprsend-inbox [toaster]="toasterService"></suprsend-inbox>
+<div *ngIf="!this.loggedinUser">
+  <div class="dist-id-field">
+    <p class="dist-label">Distinct ID:</p>
+    <input type="text" #dist_id class="dist-input" />
+  </div>
+  <button class="login-button" (click)="login(dist_id.value)">Login</button>
+</div>
+
+<div *ngIf="!!this.loggedinUser && this.home" class="loggedin-home">
+  <!-- inbox code -->
+  <suprsend-inbox [toaster]="toasterService"></suprsend-inbox>
+
+  <p class="hello-text">Hello {{ loggedinUser }}</p>
+  <button class="reset-button" (click)="logout()">Reset</button>
+</div>
+<div *ngIf="!!this.loggedinUser && this.home">
+  <a href="/preferences">Preferences</a>
+</div>
+<router-outlet></router-outlet>

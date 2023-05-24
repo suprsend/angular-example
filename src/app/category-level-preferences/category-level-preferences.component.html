@@ -1,0 +1,55 @@
+<div
+  *ngFor="let section of this.preferencesData.sections"
+  class="cat-container"
+>
+  <div *ngIf="section.name">
+    <div class="section-name-container">
+      <p class="section-name-text">{{ section.name }}</p>
+      <p class="section-description-text">{{ section.description }}</p>
+    </div>
+  </div>
+  <div *ngFor="let subcategory of section.subcategories">
+    <div class="subcategory-container">
+      <div class="subcategory-top-div">
+        <div>
+          <p class="subcategory-name">{{ subcategory.name }}</p>
+          <p class="subcategory-description">{{ subcategory.description }}</p>
+        </div>
+        <ui-switch
+          size="small"
+          color="#2463eb"
+          [disabled]="!subcategory.is_editable"
+          [checked]="subcategory.preference === 'opt_in'"
+          (change)="
+            handleCategoryPreferenceChange($event, subcategory.category)
+          "
+        ></ui-switch>
+      </div>
+
+      <div class="subcategory-channel-container">
+        <div
+          *ngFor="let channel of subcategory.channels"
+          class="category-channel-checkbox"
+        >
+          <input
+            type="checkbox"
+            [id]="subcategory.category + '-' + channel.channel"
+            [disabled]="!channel.is_editable"
+            [checked]="channel.preference === 'opt_in'"
+            (change)="
+              handleChannelPreferenceInCategoryChange(
+                channel,
+                subcategory.category
+              )
+            "
+          />
+          <label
+            class="category-channel-label"
+            [for]="subcategory.category + '-' + channel.channel"
+            >{{ channel.channel }}</label
+          >
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
