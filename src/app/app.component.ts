@@ -29,7 +29,6 @@ export class AppComponent implements OnInit, DoCheck {
   }
 
   ngDoCheck(): void {
-    console.log('calling on changes');
     this.loggedinUser = localStorage.getItem('loggedUser');
   }
 
