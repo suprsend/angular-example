@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { SuprSendInboxService } from '@suprsend/ngx-inbox';
-import { ToastrService } from 'ngx-toastr';
 import suprsend from '@suprsend/web-sdk';
 import { Router } from '@angular/router';
+import { env } from './env';
 
-suprsend.init('workspace_key', 'workspace_secret', {
-  vapid_key: 'your vapid key',
+suprsend.init(env.workspace_key, env.workspace_secret, {
+  vapid_key: env.vapid_key,
+  api_url: env.api_url, // not needed
 });
 
 @Component({
@@ -15,16 +15,10 @@ suprsend.init('workspace_key', 'workspace_secret', {
 })
 export class AppComponent implements OnInit {
   title = 'angular-example';
-  toasterService;
   loggedinUser: string | null;
   home: boolean = false;
 
-  constructor(
-    private ssinbox: SuprSendInboxService,
-    toastr: ToastrService,
-    private router: Router
-  ) {
-    this.toasterService = toastr;
+  constructor(private router: Router) {
     this.loggedinUser = localStorage.getItem('loggedUser');
     setTimeout(() => {
       this.home = this.router.url === '/';
@@ -44,8 +38,6 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit() {
-    // inbox code
-    this.ssinbox.identifyUser('distintic_id', 'subscriber_id');
     // web push code
     suprsend.web_push.register_push();
   }

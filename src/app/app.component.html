@@ -7,9 +7,6 @@
 </div>
 
 <div *ngIf="!!this.loggedinUser && this.home" class="loggedin-home">
-  <!-- inbox code -->
-  <suprsend-inbox [toaster]="toasterService"></suprsend-inbox>
-
   <p class="hello-text">Hello {{ loggedinUser }}</p>
   <button class="reset-button" (click)="logout()">Reset</button>
 </div>
