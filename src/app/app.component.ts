@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, DoCheck } from '@angular/core';
 import suprsend from '@suprsend/web-sdk';
-import { Router } from '@angular/router';
 import { env } from './env';
+import { Router } from '@angular/router';
 
 suprsend.init(env.workspace_key, env.workspace_secret, {
   vapid_key: env.vapid_key,
@@ -13,28 +13,24 @@ suprsend.init(env.workspace_key, env.workspace_secret, {
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
 })
-export class AppComponent implements OnInit {
+export class AppComponent implements OnInit, DoCheck {
   title = 'angular-example';
   loggedinUser: string | null;
-  home: boolean = false;
 
   constructor(private router: Router) {
     this.loggedinUser = localStorage.getItem('loggedUser');
-    setTimeout(() => {
-      this.home = this.router.url === '/';
-    });
-  }
-
-  login(val: string) {
-    suprsend.identify(val);
-    localStorage.setItem('loggedUser', val);
-    this.loggedinUser = val;
   }
 
   logout() {
     suprsend.reset();
     localStorage.removeItem('loggedUser');
     this.loggedinUser = null;
+    this.router.navigate(['/login']);
+  }
+
+  ngDoCheck(): void {
+    console.log('calling on changes');
+    this.loggedinUser = localStorage.getItem('loggedUser');
   }
 
   ngOnInit() {

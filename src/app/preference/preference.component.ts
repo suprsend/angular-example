@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import suprsend, { ChannelLevelPreferenceOptions } from '@suprsend/web-sdk';
+import suprsend from '@suprsend/web-sdk';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-preference',
@@ -8,6 +9,13 @@ import suprsend, { ChannelLevelPreferenceOptions } from '@suprsend/web-sdk';
 })
 export class PreferenceComponent implements OnInit {
   preferencesData: any = null;
+
+  constructor(private router: Router) {
+    const isLoggedIn = localStorage.getItem('loggedUser');
+    if (!isLoggedIn) {
+      this.router.navigate(['/login']);
+    }
+  }
 
   ngOnInit(): void {
     suprsend.user.preferences.get_preferences().then((resp) => {

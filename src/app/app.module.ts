@@ -6,6 +6,8 @@ import { PreferenceComponent } from './preference/preference.component';
 import { ChannelLevelPreferencesComponent } from './channel-level-preferences/channel-level-preferences.component';
 import { CategoryLevelPreferencesComponent } from './category-level-preferences/category-level-preferences.component';
 import { UiSwitchModule } from 'ngx-ui-switch';
+import { DashboardComponent } from './dashboard/dashboard.component';
+import { LoginComponent } from './login/login.component';
 
 @NgModule({
   declarations: [
@@ -13,6 +15,8 @@ import { UiSwitchModule } from 'ngx-ui-switch';
     PreferenceComponent,
     ChannelLevelPreferencesComponent,
     CategoryLevelPreferencesComponent,
+    DashboardComponent,
+    LoginComponent,
   ],
   imports: [BrowserModule, AppRoutingModule, UiSwitchModule],
   providers: [],
