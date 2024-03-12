@@ -1,11 +1,11 @@
-import { Component, OnInit } from '@angular/core';
-import { SuprSendInboxService } from '@suprsend/ngx-inbox';
-import { ToastrService } from 'ngx-toastr';
+import { Component, OnInit, DoCheck } from '@angular/core';
 import suprsend from '@suprsend/web-sdk';
+import { env } from './env';
 import { Router } from '@angular/router';
 
-suprsend.init('workspace_key', 'workspace_secret', {
-  vapid_key: 'your vapid key',
+suprsend.init(env.workspace_key, env.workspace_secret, {
+  vapid_key: env.vapid_key,
+  api_url: env.api_url, // not needed
 });
 
 @Component({
@@ -13,39 +13,26 @@ suprsend.init('workspace_key', 'workspace_secret', {
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
 })
-export class AppComponent implements OnInit {
+export class AppComponent implements OnInit, DoCheck {
   title = 'angular-example';
-  toasterService;
   loggedinUser: string | null;
-  home: boolean = false;
 
-  constructor(
-    private ssinbox: SuprSendInboxService,
-    toastr: ToastrService,
-    private router: Router
-  ) {
-    this.toasterService = toastr;
+  constructor(private router: Router) {
     this.loggedinUser = localStorage.getItem('loggedUser');
-    setTimeout(() => {
-      this.home = this.router.url === '/';
-    });
-  }
-
-  login(val: string) {
-    suprsend.identify(val);
-    localStorage.setItem('loggedUser', val);
-    this.loggedinUser = val;
   }
 
   logout() {
     suprsend.reset();
     localStorage.removeItem('loggedUser');
     this.loggedinUser = null;
+    this.router.navigate(['/login']);
+  }
+
+  ngDoCheck(): void {
+    this.loggedinUser = localStorage.getItem('loggedUser');
   }
 
   ngOnInit() {
-    // inbox code
-    this.ssinbox.identifyUser('distintic_id', 'subscriber_id');
     // web push code
     suprsend.web_push.register_push();
   }
