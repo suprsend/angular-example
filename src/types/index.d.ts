@@ -4,7 +4,7 @@ declare module '@suprsend/web-inbox' {
     config: {
       workspaceKey: string;
       distinctId: string;
-      subscriberId: string | null;
+      subscriberId: string;
     }
   ): void;
 }
