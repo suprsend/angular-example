@@ -1,5 +1,7 @@
 import { Component, Input } from '@angular/core';
-import suprsend, { PreferenceOptions } from '@suprsend/web-sdk';
+import { PreferenceOptions } from '@suprsend/web-sdk';
+// import { ssClient } from '../app.component';
+import { SuprsendService } from '../suprsend.service';
 
 @Component({
   selector: 'app-category-level-preferences',
@@ -9,33 +11,39 @@ import suprsend, { PreferenceOptions } from '@suprsend/web-sdk';
 export class CategoryLevelPreferencesComponent {
   @Input() public preferencesData: any;
 
-  handleCategoryPreferenceChange(e: boolean, subcategory: string) {
-    const resp = suprsend.user.preferences.update_category_preference(
-      subcategory,
-      e ? PreferenceOptions.OPT_IN : PreferenceOptions.OPT_OUT
-    );
+  constructor(private ssService: SuprsendService) {}
+
+  async handleCategoryPreferenceChange(e: boolean, subcategory: string) {
+    const resp =
+      await this.ssService.ssClient.user.preferences.updateCategoryPreference(
+        subcategory,
+        e ? PreferenceOptions.OPT_IN : PreferenceOptions.OPT_OUT
+      );
     if (resp.error) {
-      console.log(resp.message);
+      console.log(resp.error);
     } else {
-      this.preferencesData = { ...resp };
+      this.preferencesData = { ...resp.body };
     }
   }
 
-  handleChannelPreferenceInCategoryChange(channel: any, category: string) {
+  async handleChannelPreferenceInCategoryChange(
+    channel: any,
+    category: string
+  ) {
     if (!channel.is_editable) return;
 
     const resp =
-      suprsend.user.preferences.update_channel_preference_in_category(
+      await this.ssService.ssClient.user.preferences.updateChannelPreferenceInCategory(
         channel.channel,
         channel.preference === PreferenceOptions.OPT_IN
           ? PreferenceOptions.OPT_OUT
           : PreferenceOptions.OPT_IN,
         category
       );
-    if (resp.error) {
-      console.log(resp.message);
+    if (resp.status === 'error') {
+      console.log(resp.error);
     } else {
-      this.preferencesData = { ...resp };
+      this.preferencesData = { ...resp.body };
     }
   }
 }
