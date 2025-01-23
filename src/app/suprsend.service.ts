@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import SuprSend from '@suprsend/web-sdk';
+import { SuprSend } from '@suprsend/web-sdk';
 import { env } from './env';
 
 @Injectable({
@@ -12,16 +12,15 @@ export class SuprsendService {
 
   constructor() {
     this.loggedInUser = localStorage.getItem('loggedUser');
-    this.ssClient = new SuprSend(
-      'SS.PK.scvU_4iq4Aec7pUejVh-9sxvqmJZ1el3Xye6c1f-m68',
-      { host: env.api_url, vapidKey: env.vapid_key }
-    );
+    this.ssClient = new SuprSend(env.public_api_key, {
+      host: env.api_url,
+      vapidKey: env.vapid_key,
+    });
   }
 
   async getUserToken(data: string) {
     const tokenResp = await fetch(
-      'https://collector-staging.suprsend.workers.dev/authentication-token/' +
-        data
+      `${env.api_url}/authentication-token/` + data
     );
     const tokenData = await tokenResp.json();
     return tokenData.token;

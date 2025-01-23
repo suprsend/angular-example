@@ -1,6 +1,5 @@
 import { Component, Input } from '@angular/core';
 import { PreferenceOptions } from '@suprsend/web-sdk';
-// import { ssClient } from '../app.component';
 import { SuprsendService } from '../suprsend.service';
 
 @Component({

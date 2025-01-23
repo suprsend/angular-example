@@ -17,10 +17,7 @@ export class LoginComponent {
 
   async login(val: string) {
     const resp = await this.ssService.autheticateUser(val);
-    // const token = await getUserToken(val);
-    // const resp = await ssClient.identify(val, token, {
-    //   refreshUserToken: (old) => getUserToken(val),
-    // });
+
     console.log('auth response', resp);
     localStorage.setItem('loggedUser', val);
     this.router.navigate(['/dashboard']);

@@ -18,6 +18,7 @@ export class DashboardComponent {
   }
 
   ngOnInit(): void {
+    // drop-in inbox implementation
     const suprSendConfig = {
       workspaceKey: env.inbox_ws_key,
       distinctId: env.inbox_distinct_id,

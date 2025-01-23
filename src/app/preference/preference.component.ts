@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-// import { ssClient } from '../app.component';
 import { Router } from '@angular/router';
 import { SuprsendService } from '../suprsend.service';
 
@@ -29,6 +28,7 @@ export class PreferenceComponent implements OnInit {
       }
     });
 
+    // listen for update in preferences data
     this.ssService.ssClient.emitter.on(
       'preferences_updated',
       (preferenceData) => {
