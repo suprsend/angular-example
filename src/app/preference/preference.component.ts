@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import suprsend from '@suprsend/web-sdk';
 import { Router } from '@angular/router';
+import { SuprsendService } from '../suprsend.service';
 
 @Component({
   selector: 'app-preference',
@@ -10,28 +10,34 @@ import { Router } from '@angular/router';
 export class PreferenceComponent implements OnInit {
   preferencesData: any = null;
 
-  constructor(private router: Router) {
+  constructor(private router: Router, private ssService: SuprsendService) {
     const isLoggedIn = localStorage.getItem('loggedUser');
     if (!isLoggedIn) {
       this.router.navigate(['/login']);
     }
   }
 
-  ngOnInit(): void {
-    suprsend.user.preferences.get_preferences().then((resp) => {
-      if (resp.error) {
-        console.log(resp.message);
+  async ngOnInit() {
+    const resp = await this.ssService.autheticateUser();
+    console.log('authenticated in preference', resp);
+    this.ssService.ssClient.user.preferences.getPreferences().then((resp) => {
+      if (resp.status === 'error') {
+        console.log(resp.error);
       } else {
-        this.preferencesData = resp;
+        this.preferencesData = resp.body;
       }
     });
 
-    suprsend.emitter.on('preferences_updated', (preferenceData) => {
-      this.preferencesData = { ...preferenceData };
-    });
+    // listen for update in preferences data
+    this.ssService.ssClient.emitter.on(
+      'preferences_updated',
+      (preferenceData) => {
+        this.preferencesData = { ...preferenceData.body };
+      }
+    );
 
     // listen for errors
-    suprsend.emitter.on('preferences_error', (error) => {
+    this.ssService.ssClient.emitter.on('preferences_error', (error) => {
       console.log('ERROR:', error);
     });
   }

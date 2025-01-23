@@ -1,12 +1,6 @@
 import { Component, OnInit, DoCheck } from '@angular/core';
-import suprsend from '@suprsend/web-sdk';
-import { env } from './env';
 import { Router } from '@angular/router';
-
-suprsend.init(env.workspace_key, env.workspace_secret, {
-  vapid_key: env.vapid_key,
-  api_url: env.api_url, // not needed
-});
+import { SuprsendService } from './suprsend.service';
 
 @Component({
   selector: 'app-root',
@@ -17,12 +11,12 @@ export class AppComponent implements OnInit, DoCheck {
   title = 'angular-example';
   loggedinUser: string | null;
 
-  constructor(private router: Router) {
+  constructor(private router: Router, private ssService: SuprsendService) {
     this.loggedinUser = localStorage.getItem('loggedUser');
   }
 
   logout() {
-    suprsend.reset();
+    this.ssService.removeUser();
     localStorage.removeItem('loggedUser');
     this.loggedinUser = null;
     this.router.navigate(['/login']);
@@ -32,8 +26,9 @@ export class AppComponent implements OnInit, DoCheck {
     this.loggedinUser = localStorage.getItem('loggedUser');
   }
 
-  ngOnInit() {
-    // web push code
-    suprsend.web_push.register_push();
+  async ngOnInit() {
+    if (this.loggedinUser) {
+      this.ssService.autheticateUser(this.loggedinUser);
+    }
   }
 }

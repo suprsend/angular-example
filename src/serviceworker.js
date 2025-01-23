@@ -1,5 +1,4 @@
 importScripts(
-  "https://cdn.jsdelivr.net/npm/@suprsend/web-sdk@0.1.25/serviceworker/serviceworker.min.js"
+  "https://cdn.jsdelivr.net/npm/@suprsend/web-sdk@2.0.0/public/serviceworker.min.js"
 );
-
-init_workspace("workspace_key");
+initSuprSend(publicApiKey); // replate this with your publicApiKey

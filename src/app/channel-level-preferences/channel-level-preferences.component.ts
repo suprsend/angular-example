@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
-import suprsend, { ChannelLevelPreferenceOptions } from '@suprsend/web-sdk';
+import { ChannelLevelPreferenceOptions } from '@suprsend/web-sdk';
+import { SuprsendService } from '../suprsend.service';
 
 @Component({
   selector: 'app-channel-level-preferences',
@@ -9,19 +10,22 @@ import suprsend, { ChannelLevelPreferenceOptions } from '@suprsend/web-sdk';
 export class ChannelLevelPreferencesComponent {
   @Input() public preferencesData: any;
 
-  handleChange(channel: string, preference: string) {
+  constructor(private ssService: SuprsendService) {}
+
+  async handleChange(channel: string, preference: string) {
     const preferenceStatus =
       preference === 'ALL'
         ? ChannelLevelPreferenceOptions.ALL
         : ChannelLevelPreferenceOptions.REQUIRED;
-    const resp = suprsend.user.preferences.update_overall_channel_preference(
-      channel,
-      preferenceStatus
-    );
-    if (resp.error) {
-      console.log(resp.message);
+    const resp =
+      await this.ssService.ssClient.user.preferences.updateOverallChannelPreference(
+        channel,
+        preferenceStatus
+      );
+    if (resp.status === 'error') {
+      console.log(resp.error);
     } else {
-      this.preferencesData = { ...resp };
+      this.preferencesData = { ...resp.body };
     }
   }
 }

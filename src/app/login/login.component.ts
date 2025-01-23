@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import suprsend from '@suprsend/web-sdk';
 import { Router } from '@angular/router';
+import { SuprsendService } from '../suprsend.service';
 
 @Component({
   selector: 'app-login',
@@ -8,15 +8,17 @@ import { Router } from '@angular/router';
   styleUrls: ['./login.component.css'],
 })
 export class LoginComponent {
-  constructor(private router: Router) {
+  constructor(private router: Router, private ssService: SuprsendService) {
     const isLoggedIn = localStorage.getItem('loggedUser');
     if (isLoggedIn) {
       this.router.navigate(['/dashboard']);
     }
   }
 
-  login(val: string) {
-    suprsend.identify(val);
+  async login(val: string) {
+    const resp = await this.ssService.autheticateUser(val);
+
+    console.log('auth response', resp);
     localStorage.setItem('loggedUser', val);
     this.router.navigate(['/dashboard']);
   }
